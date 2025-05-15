@@ -3,13 +3,13 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.types import Message
 from aiogram.filters import Command
 
-TOKEN = "__Токен_вашего_бота__"  # Замените на токен вашего бота (можно сделать отдельный файл для токена и айди, но я решил не заморачиваться)
-ADMIN_IDS = [_ID_Админов_]  # Замените ID администраторов
+TOKEN = "__Токен_вашего_бота__"  #Replace with your bot's token (you can make a separate file for the token and ID, but I decided not to bother)
+ADMIN_IDS = [_ID_Админов_]  #Replace admin IDs
 RULES_TEXT = RULES_TEXT = (
     "*Правила общения с гаргульями*\n\n"
     "• Сюда пишете ваши правила.\n"
     "• Ну и вообще все что хотите чтобы выдавалось на /rules.\n"
-) 
+) #Write your rules here
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
@@ -22,12 +22,12 @@ async def start_handler(message: Message):
 
 @dp.message(Command("rules"))
 async def rules_handler(message: Message):
-    await message.answer(RULES_TEXT) #Обработчик команды /rules для отправки правил пользователю
+    await message.answer(RULES_TEXT) #Handler for the /rules command to send rules to the user
 
 @dp.message()
 async def forward_to_admins(message: Message):
     
-    # Обработка пересланных аудиофайлов
+    #Processing forwarded audio files
     if message.forward_from or message.forward_from_chat:
         if message.audio:
             audio_id = message.audio.file_id
@@ -37,14 +37,14 @@ async def forward_to_admins(message: Message):
             await message.answer("Гаргульи услышали песнь")
             return
 
-    # Обработка фото
+    #Photo processing
     if message.photo:
         photo = message.photo[-1].file_id  # Берем фото лучшего качества
         caption = message.caption or "Гаргулья принесла рисунок"
         for admin_id in ADMIN_IDS:
             await bot.send_photo(admin_id, photo, caption=caption)
 
-    # Обработка текста
+    # Word processing
     elif message.text:
         for admin_id in ADMIN_IDS:
             await bot.send_message(admin_id, f"Гаргулья нашептала:\n\n{message.text}")

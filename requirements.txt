@@ -1,0 +1,2 @@
+aiogramx==3.20.0
+#I have a simple bot, and I entered only one dependency, but if necessary, add them here
